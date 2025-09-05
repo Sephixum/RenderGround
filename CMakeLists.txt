@@ -10,7 +10,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(
-  our_project
+  renderground
   VERSION 0.0.1
   DESCRIPTION ""
   LANGUAGES CXX C
