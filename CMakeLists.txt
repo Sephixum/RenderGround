@@ -21,6 +21,8 @@ add_executable(${PROJECT_NAME})
 include(Dependencies.cmake)
 include(CompilerWarnings.cmake)
 
+add_subdirectory(src/core)
+
 # Get the dependencies into a list
 project_setup_dependencies(DEPENDENCIES)
 message(STATUS "Deps collected: ${DEPENDENCIES}")
@@ -32,3 +34,4 @@ target_include_directories(${PROJECT_NAME} PRIVATE src)
 
 # Link against the collected deps
 target_link_libraries(${PROJECT_NAME} PRIVATE ${DEPENDENCIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE core)
