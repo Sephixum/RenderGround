@@ -3,6 +3,11 @@
 #include <fmt/format.h>
 #include <source_location>
 
+#define constant static constexpr const auto
+#define local_persist static
+#define internal_function static
+#define global_variable static
+
 constexpr void ensure_true(bool predicate,
                            std::string_view msg,
                            std::source_location source_loc = std::source_location::current()) {
