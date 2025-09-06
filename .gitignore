@@ -1,0 +1,61 @@
+# ---- Build artifacts ----
+build/
+out/
+bin/
+lib/
+*.o
+*.obj
+*.lo
+*.la
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.pdb
+
+# ---- CMake ----
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+Makefile
+*.cmake.user
+
+# ---- CPM (CMake Package Manager) ----
+cpm-package-*
+.cpm/
+_cpm/
+.cmake/
+CPM.cmake
+
+# ---- IDE files ----
+# VS Code
+.vscode/
+*.code-workspace
+.cache/
+
+# CLion / JetBrains
+.idea/
+cmake-build-*/
+
+# Visual Studio
+*.vcxproj
+*.vcxproj.filters
+*.sln
+*.user
+*.suo
+*.opensdf
+*.ncb
+*.aps
+*.db
+*.opendb
+*.cachefile
+
+# ---- Misc ----
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
