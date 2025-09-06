@@ -30,8 +30,6 @@ function(project_setup_compiler_warnings)
 
   set(PROJECT_WARNINGS_C "${PROJECT_WARNINGS_CXX}")
 
-  message(STATUS ${PROJECT_WARNINGS_CXX})
-
   target_compile_options(
     ${PROJECT_NAME}
     PRIVATE 
