@@ -5,15 +5,17 @@
 #include "util.hpp"
 
 auto main() -> int {
-    for(auto i : {1, 2, 3}) {
-        fmt::println("Hello");
+    try {
+        fmt::println("I'M {}", "BATMAN");
+        spdlog::error("HE{}", "HE");
+        ensure_true(not SDL_Init(SDL_INIT_VIDEO));
     }
 
-    if(auto res = ensure_true(1 > 2, "1 is not bigger than 2"); not res) {
-        spdlog::error(res.error());
+    catch(const std::exception &ex) {
+        spdlog::error(ex.what());
     }
 
-    fmt::println("I'M {}", "BATMAN");
-    spdlog::error("HE{}", "HE");
-    SDL_Init(SDL_INIT_VIDEO);
+    catch(...) {
+        spdlog::error("Unexpected error.");
+    }
 }
