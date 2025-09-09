@@ -44,6 +44,15 @@ function(project_setup_dependencies out_deps)
   endif()
   list(APPEND local_deps SDL3::SDL3)
 
+  if(NOT TARGET flecs::flecs)
+  cpmaddpackage(
+    NAME flecs
+    GITHUB_REPOSITORY SanderMertens/flecs
+    GIT_TAG v4.1.1
+  )
+  endif()
+  list(APPEND local_deps flecs::flecs)
+
 
   # Export the list to the called
   set(${out_deps} ${local_deps} PARENT_SCOPE)
