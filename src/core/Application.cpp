@@ -1,6 +1,6 @@
 #include "Application.hpp"
-#include "config.hpp"
-#include "util.hpp"
+#include "../config.hpp"
+#include "../util.hpp"
 #include <SDL3/SDL_video.h>
 #include <glad/glad.h>
 

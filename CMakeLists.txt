@@ -21,12 +21,13 @@ add_executable(${PROJECT_NAME})
 include(Dependencies.cmake)
 include(CompilerWarnings.cmake)
 
-add_subdirectory(src/core)
-
 # Get the dependencies into a list
+# Call it before adding subdirectories to make sure the ${DEPENDENCIES} is populated
 project_setup_dependencies(DEPENDENCIES)
 message(STATUS "Deps collected: ${DEPENDENCIES}")
 project_setup_compiler_warnings()
+
+add_subdirectory(src/core)
 
 target_sources(${PROJECT_NAME} PRIVATE src/main.cpp)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_${CMAKE_CXX_STANDARD})
