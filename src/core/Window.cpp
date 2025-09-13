@@ -25,7 +25,6 @@ Window::Window(Builder &&builder) {
                                               return flags;
                                           }())};
     ensure_true(m_window != nullptr);
-
     m_context = SDL_GL_CreateContext(m_window.get());
     ensure_true(m_context != nullptr);
     SDL_GL_MakeCurrent(m_window.get(), m_context);
@@ -36,4 +35,31 @@ Window::~Window() {
         SDL_GL_DestroyContext(m_context);
         m_context = nullptr;
     }
+}
+
+auto Window::Builder::setSize(this Self &&self, std::uint32_t width, std::uint32_t height)
+    -> Self && {
+    self.m_width = width;
+    self.m_height = height;
+    return self;
+}
+
+auto Window::Builder::setTitle(this Self &&self, std::string_view title) -> Self && {
+    self.m_title = title;
+    return self;
+}
+
+auto Window::Builder::resizeable(this Self &&self, bool value) -> Self && {
+    self.m_resizable = value;
+    return self;
+}
+
+auto Window::Builder::fullscreen(this Self &&self, bool value) -> Self && {
+    self.m_fullscreen = value;
+    return self;
+}
+
+auto Window::Builder::borderless(this Self &&self, bool value) -> Self && {
+    self.m_borderless = value;
+    return self;
 }

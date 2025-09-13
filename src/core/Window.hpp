@@ -5,9 +5,13 @@
 #include <string_view>
 #include <memory>
 
-using SDLWindow =
-    std::unique_ptr<SDL_Window,
-                    decltype([](auto window_ptr) static { SDL_DestroyWindow(window_ptr); })>;
+namespace detail {
+    struct SDLWindowDestructor {
+        static auto operator()(SDL_Window *window_ptr) -> void { SDL_DestroyWindow(window_ptr); }
+    };
+} // namespace detail
+
+using SDLWindow = std::unique_ptr<SDL_Window, detail::SDLWindowDestructor>;
 
 class Window final {
   public:
@@ -28,13 +32,11 @@ class Window final {
     SDL_GLContext m_context = nullptr;
 };
 
-// TODO: Complete functions
 class Window::Builder final {
     using Self = Window::Builder;
 
   public:
     auto setSize(this Self &&self, std::uint32_t width, std::uint32_t height) -> Self &&;
-    auto setPosition(this Self &&self, std::uint32_t x, std::uint32_t y) -> Self &&;
     auto setTitle(this Self &&self, std::string_view title) -> Self &&;
     auto resizeable(this Self &&self, bool value) -> Self &&;
     auto fullscreen(this Self &&self, bool value) -> Self &&;
