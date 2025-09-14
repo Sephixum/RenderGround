@@ -36,6 +36,11 @@ auto Window::swapBuffers() -> void { SDL_GL_SwapWindow(m_window.get()); }
 
 auto Window::makeCurrent() -> void { SDL_GL_MakeCurrent(m_window.get(), m_context); }
 
+auto Window::registerCallbackForSDLEvent(SDL_EventType type, WindowEventSystem::Handler func)
+    -> void {
+    m_event_system.registerHandler(type, std::move(func));
+}
+
 auto Window::pollEvents() -> void { m_event_system.pollEvents(); }
 
 auto Window::enableVsync(bool value) -> void {
