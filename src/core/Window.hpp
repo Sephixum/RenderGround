@@ -21,15 +21,6 @@ namespace detail {
 
 using SDLWindow = std::unique_ptr<SDL_Window, detail::SDLWindowDestructor>;
 
-class SDLOpenGLContext {
-  public:
-    SDLOpenGLContext(const SDLWindow &associated_window)
-        : m_sdl_context{SDL_GL_CreateContext(associated_window.get())} {}
-
-  private:
-    SDL_GLContext m_sdl_context = nullptr;
-};
-
 class Window final {
   public:
     class Builder;
