@@ -10,16 +10,21 @@
 namespace detail {
 
     struct SDLWindowDestructor {
-        static auto operator()(SDL_Window *window_ptr) -> void { SDL_DestroyWindow(window_ptr); }
+        inline static auto operator()(SDL_Window *window_ptr) -> void {
+            SDL_DestroyWindow(window_ptr);
+        }
     };
 
     struct SDLOpenGLContextDestructor {
-        static auto operator()(SDL_GLContext gl_context) {};
+        inline static auto operator()(SDL_GLContextState *gl_context) -> void {
+            SDL_GL_DestroyContext(gl_context);
+        };
     };
 
 } // namespace detail
 
 using SDLWindow = std::unique_ptr<SDL_Window, detail::SDLWindowDestructor>;
+using SDLOpenGLContext = std::unique_ptr<SDL_GLContextState, detail::SDLOpenGLContextDestructor>;
 
 class Window final {
   public:
@@ -41,10 +46,12 @@ class Window final {
     auto operator=(const Window &) -> Window & = delete("Copy assigning a window is unreasonable.");
     Window(Window &&) = default;
     auto operator=(Window &&) -> Window & = default;
-    ~Window();
+    ~Window() = default;
 
+  private:
     SDLWindow m_window = nullptr;
-    SDL_GLContext m_context = nullptr;
+    SDLOpenGLContext m_context = nullptr;
+
     WindowEventSystem m_event_system = {};
 };
 

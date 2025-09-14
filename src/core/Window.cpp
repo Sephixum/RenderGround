@@ -27,14 +27,14 @@ Window::Window(Builder &&builder) {
                                               return flags;
                                           }())};
     ensure_true(m_window != nullptr);
-    m_context = SDL_GL_CreateContext(m_window.get());
+    m_context = SDLOpenGLContext{SDL_GL_CreateContext(m_window.get())};
     ensure_true(m_context != nullptr);
-    SDL_GL_MakeCurrent(m_window.get(), m_context);
+    SDL_GL_MakeCurrent(m_window.get(), m_context.get());
 }
 
 auto Window::swapBuffers() -> void { SDL_GL_SwapWindow(m_window.get()); }
 
-auto Window::makeCurrent() -> void { SDL_GL_MakeCurrent(m_window.get(), m_context); }
+auto Window::makeCurrent() -> void { SDL_GL_MakeCurrent(m_window.get(), m_context.get()); }
 
 auto Window::registerCallbackForSDLEvent(SDL_EventType type, WindowEventSystem::Handler func)
     -> void {
@@ -45,13 +45,6 @@ auto Window::pollEvents() -> void { m_event_system.pollEvents(); }
 
 auto Window::enableVsync(bool value) -> void {
     ensure_true(SDL_GL_SetSwapInterval(static_cast<int>(value)) == true);
-}
-
-Window::~Window() {
-    if(m_context) {
-        SDL_GL_DestroyContext(m_context);
-        m_context = nullptr;
-    }
 }
 
 auto Window::Builder::setSize(this Self &&self, std::uint32_t width, std::uint32_t height)
