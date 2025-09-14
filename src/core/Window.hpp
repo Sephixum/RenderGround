@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <string_view>
 #include <memory>
+#include <functional>
 
 namespace detail {
     struct SDLWindowDestructor {
@@ -19,6 +20,10 @@ class Window final {
 
   public:
     static auto builder() -> Builder;
+
+  public:
+    auto swapBuffers() -> void;
+    auto makeCurrent() -> void;
 
   private:
     Window(Builder &&builder);
@@ -41,6 +46,8 @@ class Window::Builder final {
     auto resizeable(this Self &&self, bool value) -> Self &&;
     auto fullscreen(this Self &&self, bool value) -> Self &&;
     auto borderless(this Self &&self, bool value) -> Self &&;
+
+    auto build(this Self &&self) -> Window { return {std::move(self)}; }
 
   private:
     std::string m_title = "SDL3 Window";

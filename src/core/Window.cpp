@@ -30,6 +30,10 @@ Window::Window(Builder &&builder) {
     SDL_GL_MakeCurrent(m_window.get(), m_context);
 }
 
+auto Window::swapBuffers() -> void { SDL_GL_SwapWindow(m_window.get()); }
+
+auto Window::makeCurrent() -> void { SDL_GL_MakeCurrent(m_window.get(), m_context); }
+
 Window::~Window() {
     if(m_context) {
         SDL_GL_DestroyContext(m_context);
