@@ -8,6 +8,8 @@ Window::Window(Builder &&builder) {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
+    ensure_true(SDL_Init(SDL_INIT_VIDEO) == true);
+
     m_window = SDLWindow{SDL_CreateWindow(builder.m_title.c_str(),
                                           static_cast<int>(builder.m_width),
                                           static_cast<int>(builder.m_height),
@@ -34,6 +36,12 @@ auto Window::swapBuffers() -> void { SDL_GL_SwapWindow(m_window.get()); }
 
 auto Window::makeCurrent() -> void { SDL_GL_MakeCurrent(m_window.get(), m_context); }
 
+auto Window::pollEvents() -> void { m_event_system.pollEvents(); }
+
+auto Window::enableVsync(bool value) -> void {
+    ensure_true(SDL_GL_SetSwapInterval(static_cast<int>(value)) == true);
+}
+
 Window::~Window() {
     if(m_context) {
         SDL_GL_DestroyContext(m_context);
@@ -53,17 +61,17 @@ auto Window::Builder::setTitle(this Self &&self, std::string_view title) -> Self
     return self;
 }
 
-auto Window::Builder::resizeable(this Self &&self, bool value) -> Self && {
+auto Window::Builder::setResizeable(this Self &&self, bool value) -> Self && {
     self.m_resizable = value;
     return self;
 }
 
-auto Window::Builder::fullscreen(this Self &&self, bool value) -> Self && {
+auto Window::Builder::setFullscreen(this Self &&self, bool value) -> Self && {
     self.m_fullscreen = value;
     return self;
 }
 
-auto Window::Builder::borderless(this Self &&self, bool value) -> Self && {
+auto Window::Builder::setBorderless(this Self &&self, bool value) -> Self && {
     self.m_borderless = value;
     return self;
 }
