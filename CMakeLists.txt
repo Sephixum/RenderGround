@@ -26,7 +26,7 @@ project_setup_dependencies(DEPENDENCIES)
 message(STATUS "Deps collected: ${DEPENDENCIES}")
 project_setup_compiler_warnings()
 
-target_sources(${PROJECT_NAME} PRIVATE src/main.cpp)
+target_sources(${PROJECT_NAME} PRIVATE src/main.cpp src/core/window/Window.cpp src/core/window/WindowEventSystem.cpp)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_${CMAKE_CXX_STANDARD})
 target_include_directories(${PROJECT_NAME} PRIVATE src)
 

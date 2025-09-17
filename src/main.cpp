@@ -2,13 +2,22 @@
 #include <fmt/format.h>
 #include <glad/glad.h>
 #include <spdlog/spdlog.h>
-#include "util.hpp"
+#include "core/window/Window.hpp"
+#include <glad/glad.h>
 
 auto main() -> int {
     try {
-        fmt::println("I'M {}", "BATMAN");
-        spdlog::error("HE{}", "HE");
-        ensure_true(not SDL_Init(SDL_INIT_VIDEO));
+        auto window = Window::builder().setSize(800, 600).setTitle("This Window Is BATMAN").build();
+
+        // window.enableVsync(true);
+
+        window.registerCallbackForSDLEvent(SDL_EVENT_QUIT, [&window](...) { window.close(); });
+
+        while(window.isRunning()) {
+            window.pollEvents();
+            glClear(GL_COLOR_BUFFER_BIT);
+            window.swapBuffers();
+        }
     }
 
     catch(const std::exception &ex) {
