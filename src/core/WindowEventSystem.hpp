@@ -11,7 +11,7 @@ class WindowEventSystem {
   public:
     WindowEventSystem() = default;
 
-    auto registerHandler(SDL_EventType type, Handler handler) -> void;
+    auto registerHandlerForEvent(SDL_EventType type, Handler handler) -> void;
     auto pollEvents() -> void;
 
   private:
