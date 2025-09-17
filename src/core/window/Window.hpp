@@ -23,10 +23,18 @@ namespace detail {
 
 } // namespace detail
 
-using SDLWindow = std::unique_ptr<SDL_Window, detail::SDLWindowDestructor>;
-using SDLOpenGLContext = std::unique_ptr<SDL_GLContextState, detail::SDLOpenGLContextDestructor>;
-
 class Window final {
+  private:
+    using SDLWindow = std::unique_ptr< //
+        SDL_Window,                    //
+        detail::SDLWindowDestructor    //
+        >;
+
+    using SDLOpenGLContext = std::unique_ptr< //
+        SDL_GLContextState,                   //
+        detail::SDLOpenGLContextDestructor    //
+        >;
+
   public:
     class Builder;
 
@@ -39,16 +47,21 @@ class Window final {
     auto registerCallbackForSDLEvent(SDL_EventType type, WindowEventSystem::Handler func) -> void;
     auto pollEvents() -> void;
     auto enableVsync(bool value) -> void;
+    auto isRunning() -> bool;
+    auto close() -> void;
 
-  private:
-    Window(Builder &&builder);
-    Window(const Window &) = delete("Copying constructing a window is unreasonable.");
-    auto operator=(const Window &) -> Window & = delete("Copy assigning a window is unreasonable.");
-    Window(Window &&) = default;
-    auto operator=(Window &&) -> Window & = default;
     ~Window() = default;
 
   private:
+    Window(Builder &&builder);
+    Window(const Window &) = delete;
+    auto operator=(const Window &) -> Window & = delete;
+    Window(Window &&) = default;
+    auto operator=(Window &&) -> Window & = default;
+
+  private:
+    bool m_running = true;
+
     SDLWindow m_window = nullptr;
     SDLOpenGLContext m_context = nullptr;
 

@@ -26,11 +26,19 @@ Window::Window(Builder &&builder) {
                                               flags |= SDL_WINDOW_OPENGL;
                                               return flags;
                                           }())};
+
     ensure_true(m_window != nullptr);
     m_context = SDLOpenGLContext{SDL_GL_CreateContext(m_window.get())};
     ensure_true(m_context != nullptr);
-    SDL_GL_MakeCurrent(m_window.get(), m_context.get());
+    makeCurrent();
+
+    // NOTE: Default function for quit event
+    // Better to have this and user could actually
+    // overwrite this.
+    m_event_system.registerHandlerForEvent(SDL_EVENT_QUIT, [this](...) { close(); });
 }
+
+auto Window::builder() -> Builder { return {}; }
 
 auto Window::swapBuffers() -> void { SDL_GL_SwapWindow(m_window.get()); }
 
@@ -38,7 +46,7 @@ auto Window::makeCurrent() -> void { SDL_GL_MakeCurrent(m_window.get(), m_contex
 
 auto Window::registerCallbackForSDLEvent(SDL_EventType type, WindowEventSystem::Handler func)
     -> void {
-    m_event_system.registerHandler(type, std::move(func));
+    m_event_system.registerHandlerForEvent(type, std::move(func));
 }
 
 auto Window::pollEvents() -> void { m_event_system.pollEvents(); }
@@ -46,6 +54,10 @@ auto Window::pollEvents() -> void { m_event_system.pollEvents(); }
 auto Window::enableVsync(bool value) -> void {
     ensure_true(SDL_GL_SetSwapInterval(static_cast<int>(value)) == true);
 }
+
+auto Window::isRunning() -> bool { return m_running; }
+
+auto Window::close() -> void { m_running = false; }
 
 auto Window::Builder::setSize(this Self &&self, std::uint32_t width, std::uint32_t height)
     -> Self && {
