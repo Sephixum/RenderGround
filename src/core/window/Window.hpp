@@ -5,7 +5,6 @@
 #include <cstdint>
 #include <string_view>
 #include <memory>
-#include <functional>
 
 namespace detail {
 

@@ -35,7 +35,7 @@ Window::Window(Builder &&builder) {
     // NOTE: Default function for quit event
     // Better to have this and user could actually
     // overwrite this.
-    m_event_system.registerHandlerForEvent(SDL_EVENT_QUIT, [this](...) { close(); });
+    m_event_system.registerHandlerForEvent(SDL_EVENT_QUIT, [this](...) { this->close(); });
 }
 
 auto Window::builder() -> Builder { return {}; }
