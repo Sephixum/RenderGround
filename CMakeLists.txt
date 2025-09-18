@@ -36,5 +36,4 @@ add_subdirectory(src/core/window)
 add_subdirectory(src/core/application)
 
 # Link against the collected deps
-target_link_libraries(${PROJECT_NAME} PRIVATE ${DEPENDENCIES} core_window)
-target_link_libraries(${PROJECT_NAME} PRIVATE core_application)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${DEPENDENCIES} core_application core_window)
