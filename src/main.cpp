@@ -1,4 +1,4 @@
-#include "core/Application.hpp"
+#include "core/application/Application.hpp"
 #include <fmt/format.h>
 #include <glad/glad.h>
 #include <spdlog/spdlog.h>
@@ -11,11 +11,11 @@ auto main() -> int {
         Application::getInstance();
     }
 
-    catch (const std::exception &ex) {
+    catch(const std::exception &ex) {
         spdlog::error(ex.what());
     }
 
-    catch (...) {
+    catch(...) {
         spdlog::error("Unexpected error.");
     }
 }

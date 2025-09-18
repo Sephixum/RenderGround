@@ -1,6 +1,6 @@
 #include "Window.hpp"
 #include <SDL3/SDL_video.h>
-#include "util.hpp"
+#include "../../util.hpp"
 
 Window::Window(Builder &&builder) {
     SDL_GL_SetAttribute(SDL_GLAttr::SDL_GL_CONTEXT_MAJOR_VERSION, 4);
