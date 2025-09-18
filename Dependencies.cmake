@@ -36,11 +36,12 @@ function(project_setup_dependencies out_deps)
   list(APPEND local_deps glad)
 
   if(NOT TARGET SDL3::SDL3)
-  cpmaddpackage(
-    NAME SDL3
-    GITHUB_REPOSITORY libsdl-org/SDL
-    GIT_TAG release-3.2.22
-  )
+    cpmaddpackage(
+      NAME SDL3
+      GITHUB_REPOSITORY libsdl-org/SDL
+      GIT_TAG release-3.2.22
+      OPTIONS "SDL_TEST_LIBRARY OFF"
+    )
   endif()
   list(APPEND local_deps SDL3::SDL3)
 

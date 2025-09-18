@@ -26,9 +26,14 @@ project_setup_dependencies(DEPENDENCIES)
 message(STATUS "Deps collected: ${DEPENDENCIES}")
 project_setup_compiler_warnings()
 
+# Set include directories globally for the project
+include_directories(src/)
+
+
 target_sources(${PROJECT_NAME} PRIVATE src/main.cpp)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_${CMAKE_CXX_STANDARD})
-target_include_directories(${PROJECT_NAME} PRIVATE src)
+
+add_subdirectory(src/core/window)
 
 # Link against the collected deps
-target_link_libraries(${PROJECT_NAME} PRIVATE ${DEPENDENCIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${DEPENDENCIES} core_window)
