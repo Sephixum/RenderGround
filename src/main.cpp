@@ -5,10 +5,7 @@
 
 auto main() -> int {
     try {
-        // fmt::println("I'M {}", "BATMAN");
-        // spdlog::error("HE{}", "HE");
-        // ensure_true(not SDL_Init(SDL_INIT_VIDEO));
-        Application::getInstance();
+        Application::getInstance().run();
     }
 
     catch(const std::exception &ex) {

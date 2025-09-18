@@ -10,22 +10,31 @@ auto Application::getInstance() -> Application & {
 }
 
 auto Application::init() -> void {
-    ensure_true(SDL_Init(SDL_INIT_VIDEO));
-
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
-
-    m_window = SDL_CreateWindow(config::WINDOW_TITLE,
-                                config::WINDOW_WIDTH,
-                                config::WINDOW_HEIGHT,
-                                SDL_WINDOW_OPENGL);
-    ensure_true(m_window != nullptr);
-
-    m_glContext = SDL_GL_CreateContext(m_window);
-    ensure_true(m_glContext != nullptr);
-
     ensure_true(gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress));
+}
+
+auto Application::handleEvents() -> void { m_window.pollEvents(); }
+
+auto Application::run() -> void {
+    auto last_time = static_cast<float>(SDL_GetTicks());
+    while(m_window.isRunning()) {
+        auto current_time = static_cast<float>(SDL_GetTicks());
+        auto deltatime = (current_time - last_time) / 1000.0f;
+        last_time = current_time;
+
+        handleEvents();
+        // update(deltatime);
+        render();
+    }
+}
+
+auto Application::render() -> void {
+    m_window.makeCurrent();
+
+    glClearColor(0.1f, 0.5f, 0.1f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    m_window.swapBuffers();
 }
 
 Application::Application() { init(); }

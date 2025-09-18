@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL3/SDL.h>
+#include "../window/Window.hpp"
 
 class Application {
   public:
@@ -19,6 +20,8 @@ class Application {
     auto update(float deltatime) -> void;
     auto render() -> void;
 
-    SDL_Window *m_window = nullptr;
-    SDL_GLContext m_glContext = nullptr;
+    Window m_window{Window::builder()             //
+                        .setTitle("RenderGround") //
+                        .setSize(1280, 720)       //
+                        .build()};
 };
