@@ -8,12 +8,12 @@
 #define internal_function static
 #define global_variable static
 
-constexpr void ensure_true(bool predicate,
-                           std::string_view msg,
-                           std::source_location source_loc = std::source_location::current()) {
+constexpr void
+    _ensure_true_impl(bool predicate,
+                      std::string_view msg,
+                      std::source_location source_loc = std::source_location::current()) {
     if(not predicate) {
-        // TODO: Do not use excpetions
-        throw std::runtime_error{fmt::format("\nfile: {}\nfunction: {}\nline: {}\nmessage: {}",
+        throw std::runtime_error{fmt::format("\nfile: {}\nfunction: {}\nline: {}\nexpression: {}",
                                              source_loc.file_name(),
                                              source_loc.function_name(),
                                              source_loc.line(),
@@ -21,12 +21,4 @@ constexpr void ensure_true(bool predicate,
     }
 }
 
-constexpr void ensure_true(bool predicate,
-                           std::source_location source_loc = std::source_location::current()) {
-    if(not predicate) {
-        throw std::runtime_error{fmt::format("\nfile: {}\nfunction: {}\nline: {}",
-                                             source_loc.file_name(),
-                                             source_loc.function_name(),
-                                             source_loc.line())};
-    }
-}
+#define ensure_true(expr) _ensure_true_impl(expr, #expr)
