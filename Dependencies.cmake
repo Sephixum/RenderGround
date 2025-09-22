@@ -40,7 +40,14 @@ function(project_setup_dependencies out_deps)
       NAME SDL3
       GITHUB_REPOSITORY libsdl-org/SDL
       GIT_TAG release-3.2.22
-      OPTIONS "SDL_TEST_LIBRARY OFF"
+      OPTIONS
+	"SDL_TEST_LIBRARY OFF"
+	"SDL_AUDIO OFF"
+	"SDL_RENDER OFF"
+	"SDL_JOYSTICK OFF"
+	"SDL_HAPTIC OFF"
+	"SDL_POWER OFF"
+	"SDL_MISC OFF"
     )
   endif()
   list(APPEND local_deps SDL3::SDL3)
